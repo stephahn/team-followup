@@ -1,0 +1,41 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    New patient
+{% endblock %}
+
+{% block main %}
+<main class="dash">
+    <div class="newPatient">
+        <h1>New patient entry form</h1>
+        <form method="post">
+            <fieldset>
+                <label for="name">Name<input id="name" name="name" type="text" required /></label>
+                <label for="forename">Forename<input id="forename" name="forename" type="text" required /></label>
+                <label for="id">ID<input id="id"  name="id" type="text" pattern="[0-9]{13}" required /></label>
+                <label for="diagnosis">Diagnosis<input id="diagnosis" name="diagnosis" type="text" required /></label>
+                <label for="forename">Forename<input id="forename" name="forename" type="text" required /></label>
+            </fieldset>
+            <fieldset>    
+                <select id="riskFactors" name="riskFactors" required>
+                    <option value="">Select</option>
+                    <option value="1">Alchoolism</option>
+                    <option value="2">smoking</option>
+                    <option value="3">Drug use</option>
+                    <option value="4">Diabetes melitius</option>
+                    <!-- We have to add more RF, maybe we should make/find a common RF dictionary and make a Jinka template -->
+                  </select>
+            </fieldset>
+            <input type="submit" value="Add as a new patient" />
+        </form>
+    </div>
+
+
+
+
+
+
+
+    
+
+{% endblock main %}
