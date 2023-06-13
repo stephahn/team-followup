@@ -22,7 +22,7 @@ var/
 wheels/
 pip-wheel-metadata/
 share/python-wheels/
-flask_session/
+flask_web/flask_session/
 *.egg-info/
 .installed.cfg
 *.egg
