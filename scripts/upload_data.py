@@ -1,11 +1,9 @@
-from dotenv import load_dotenv
-load_dotenv()
+import dotenv
+dotenv.load_dotenv(dotenv.find_dotenv(usecwd=True))
 import requests
 import yaml
 import os
-import sys
-import time
-import datetime
+
 
 url = "https://hackathon.siim.org/fhir/DiagnosticReport"
 

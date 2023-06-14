@@ -92,7 +92,7 @@ class RecommendationDetector(TextDetector):
         """
         Initialize the RecommendationDetector instance.
         """
-        super().__init__(r'\b(recommend|consider)\b', preceding_level=preceding_level)
+        super().__init__(r'\b(recommend|consider|recommendations)\b', preceding_level=preceding_level)
         self.html_balise = 'mark'
     def detect(self, text: str) -> list[str]:
         """
@@ -120,7 +120,7 @@ class RecommendationDetector(TextDetector):
             str: The text with the regex matches highlighted using HTML span elements.
         """
         text_to_proceed = self.prepare_input_text(text)
-        highlithed = fr"<{self.html_balise}>{text_to_proceed}</{self.html_balise}>"
+        highlithed = fr"<{self.html_balise} style='background-color: green; color: black;'>{text_to_proceed}</{self.html_balise}>"
         return self.prepare_output_text(text,highlithed)
 
 class TimeFrameDetector(TextDetector):
@@ -139,30 +139,43 @@ class ModalityDetector(TextDetector):
         super().__init__(r'(CT|MRI|PET|X-ray)', preceding_level=preceding_level)
         self.color = "red"
 
-# text = "Impression:\n1. Left upper lobe mass, suspicious for malignancy.\n2. Mediastinal adenopathy measuring up to 2.7 cm, without contralateral lung nodules. Recommend short interval follow-up CT in 8-12 weeks to evaluate for resolution vs biopsy or CT/PET."
-#
-# recommendation_pattern =  r'(in\s+\d+-\d+\s+(?:weeks|months))'
-#
-# highlighted_text = re.sub(recommendation_pattern, r'<mark>\1</mark>', text, flags=re.IGNORECASE)
-#
-# print(highlighted_text)
-import re
+class DetectorPipeline:
+    def __init__(self):
+        """
+        Initialize the DetectorPipeline instance.
+        """
+        self.recommendation = RecommendationDetector()
+        self.detectors = {}
 
-recommendation = RecommendationDetector()
-timeframe = TimeFrameDetector(preceding_level=recommendation)
-modality = ModalityDetector(preceding_level=recommendation)
+    def add_detector(self, regex_pattern: str, name: str, color:str='red'):
+        """
+        Add a new detector to the pipeline.
 
-text = "Impression:\n1. Left upper lobe mass, suspicious for malignancy.\n2. Mediastinal adenopathy measuring up to 2.7 cm, without contralateral lung nodules with MRI. Recommend short interval follow-up CT in 8-12 weeks to evaluate for resolution vs biopsy or CT/PET."
+        Args:
+            regex_pattern (str): The regex pattern to use for the detector.
+            name (str): The name of the detector.
+        """
+        detector = TextDetector(regex_pattern, preceding_level=self.recommendation)
+        detector.color = color
+        self.detectors[name] = detector
+    def remove_detector(self, name: str):
+        """
+        Remove a detector from the pipeline.
 
-recommendation_matches = recommendation.detect(text)
-highlithed_text = recommendation.highlight_html(text)
-print(recommendation_matches)
-if recommendation_matches:
-    timeframe_matches = timeframe.detect(text)
-    highlithed_text = timeframe.highlight_html(highlithed_text)
-    modality_matches = modality.detect(text)
-    highlithed_text = modality.highlight_html(highlithed_text)
-    print(highlithed_text)
+        Args:
+            name (str): The name of the detector to remove.
+        """
+        del self.detectors[name]
+    def detect(self, text: str) -> dict[str, list[str]]:
+        recommendation_matches = self.recommendation.detect(text)
+        print(recommendation_matches)
+        highlithed_text = self.recommendation.highlight_html(text)
+        if recommendation_matches:
+            for name, detector in self.detectors.items():
+                if detector.detect(text):
+                    highlithed_text = detector.highlight_html(highlithed_text)
+        return highlithed_text
+
 
 
 

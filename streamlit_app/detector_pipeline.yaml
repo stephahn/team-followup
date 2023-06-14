@@ -1,0 +1,6 @@
+- regex: (in\s+\d+-\d+\s+(?:weeks|months))
+  color: red
+  name: time_frame
+- regex: (CT|MRI|PET|X-ray)
+  color: red
+  name: modality
