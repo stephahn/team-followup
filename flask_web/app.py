@@ -36,7 +36,7 @@ def after_request(response):
 def index():
     """Display about this site page"""
     # downloading the data of user ID from SQLlite table
-    return render_template("index.html")
+    return render_template("templates/index.html")
 
 
 @app.route("/projects", methods=["GET"])
@@ -80,7 +80,7 @@ def login():
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
-        return render_template("login.html")
+        return render_template("templates/login.html")
 
 
 @app.route("/logout")
@@ -98,7 +98,7 @@ def logout():
 def register():
     """Register user"""
     if request.method == "GET":
-        return render_template("register.html")
+        return render_template("templates/register.html")
     else:
         # aquiring log in data from the form
         username = request.form.get("username")
@@ -131,7 +131,7 @@ def register():
 @login_required
 def newPatient():
     if request.method == "GET":
-        return render_template("newPatient.html")
+        return render_template("templates/newPatient.html")
 
 
 
@@ -139,12 +139,12 @@ def newPatient():
 @login_required
 def examinations():
     if request.method == "GET":
-        return render_template("examinations.html")
+        return render_template("templates/examinations.html")
 
 
 @app.route("/patients", methods=["GET"])
 @login_required
 def patients():
     if request.method == "GET":
-        return render_template("patients.html")
+        return render_template("templates/patients.html")
 
