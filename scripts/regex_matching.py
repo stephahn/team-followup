@@ -172,6 +172,7 @@ class DetectorPipeline:
         highlithed_text = self.recommendation.highlight_html(text)
         if recommendation_matches:
             for name, detector in self.detectors.items():
+                print(name,detector.detect(text))
                 if detector.detect(text):
                     highlithed_text = detector.highlight_html(highlithed_text)
         return highlithed_text

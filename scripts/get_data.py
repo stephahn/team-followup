@@ -17,6 +17,13 @@ def get_all_radiology_report():
     params=None
     return get_resources("DiagnosticReport", headers, params)
 
+def get_one_radiology_report(report_id):
+    headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'apikey': os.getenv("API_KEY")}
+    params=None
+    return get_resources(f"DiagnosticReport/{report_id}", headers, params)
 def get_all_patient():
     headers = {
         'Content-Type': 'application/json',

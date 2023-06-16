@@ -1,5 +1,5 @@
-- regex: (in\s+\d+-\d+\s+(?:weeks|months))
-  color: red
+- regex: \b(\d+-\d+ weeks|\d+ months)\b
+  color: blue
   name: time_frame
 - regex: (CT|MRI|PET|X-ray)
   color: red
